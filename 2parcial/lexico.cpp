@@ -7,7 +7,7 @@
  * @return EXIT_FAILURE si existe algún error en el análisis y termina la ejecución
  */
 
-// #include "lexico.h"
+#include "lexico.h"
 
 using namespace std;
 
