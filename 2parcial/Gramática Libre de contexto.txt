@@ -1,0 +1,42 @@
+No Terminales:
+    Funcion main
+    funciones
+    funcion
+    tiporetorno
+    parametros
+    parametro
+    bloqueinstrucciones
+    instruccion
+    expAgrupacion
+    iif
+    expresión
+    ielse
+    declaración
+    tipodato
+    asignacion
+    variable
+    expcondicional
+    exparitmetica
+    explogica
+Terminales:
+    pr = {if,else,while,return,void,int,float}
+    tipo token = {id, entero, flotante}
+    tokens = {(,),{,},}
+
+Produccion inicial
+    descendente recursivo
+    gramatica tipo 2
+    id -> l | l~
+    $ -> l~
+         0~
+
+    Programa -> F m | m
+    F -> F f | f
+    f -> T id (parametros) {bloqueinstrucciones} // cuerpo de función
+    P -> p , P | p
+    I -> i[I] // bloque de instrucciones
+
+Simbolo axiomatico
+
+int main() {<bloqueinstrucciones>}
+<tiporetorno> id(<parametros>) {<bloqueinstrucciones>}

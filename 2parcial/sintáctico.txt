@@ -1,0 +1,319 @@
+No Terminales:
+    Funcion main
+    funciones
+    funcion
+    tiporetorno
+    parametros
+    parametro
+    bloqueinstrucciones
+    instruccion
+    expAgrupacion
+    iif
+    expresión
+    ielse
+    declaración
+    tipodato
+    asignacion
+    variable
+    expcondicional
+    exparitmetica
+    explogica
+Terminales:
+    pr = {if,else,while,return,void,int,float}
+    tipo token = {id, entero, flotante}
+    tokens = {(,),{,},}
+
+Produccion inicial
+    descendiente recursivo
+    gramatica tipo 2
+    id -> l | l~
+    $ -> l~
+         0~
+
+    Programa -> F m | m
+    F -> F f | f
+    f -> T id (Parametros) {bloqueinstrucciones} // cuerpo de función
+    P -> p , P | p
+    I -> i[I] // bloque de instrucciones
+
+Simbolo axiomatico
+
+int main() {<bloqueinstrucciones>}
+<tiporetorno> id(<parametros>) {<bloqueinstrucciones>}
+
+__ Se analiza parámetro por parametro hasta llegar al fin de los parametros
+
+P -> p[,P] Regla de parametros
+bool parametros(){
+    if(!parametro())
+        //TODO: error
+    if(matchToken(actual, ',')) // si el siguiente token es ','
+    {
+        sigToken();
+        return parametros();
+    }
+    else{
+        return true;
+    }
+}
+
+bool parametro(){
+    if(!tipodato())
+        //TODO: Error
+    if(!matchType(actual, "id"))
+        {
+            sigToken();
+            return true;
+        }
+    else
+        //TODO: error
+}
+
+// bloque de instrucciones
+bool bloqueInstrucciones(){
+    if(!instrucciones())
+        //TODO: Error
+    if(matchToken(actual, '}'))
+        return true;
+    return bloqueInstrucciones();
+}
+
+tipos de instrucciones (instruccion)
+    i -> declaraciones | asignaciones | if-else | while | return | llamada a funcion
+// declaración
+    d -> tipo de dato |
+    V -> id [= exp] [,v]
+    a -> id = exp ;
+    ie -> if (exp) ; [e]
+    ie -> if (exp) {I} [e]
+    e -> else ;
+    e -> {I}
+    w -> while (exp) ;
+    w -> while (exp) {I}
+    r -> return exp;
+    llf -> id ([EXP]) // más expresiones
+    llf -> lle ;
+
+// bool instruccion(){
+    if(matchType(actual, "id")){
+        if(matchToken(next, "="))
+            return asignacion();
+        else if(matchToken(next, "("))
+            return llamadaFuncion();
+        else
+            //TODO: Error
+    }
+
+    if(matchToken(actual, "while")){
+        return _while();
+    }
+    if(matchToken(actual, "if")){
+        return _if();
+    }
+    if(matchToken(actual, "return")){
+        return _return();
+    }
+    if(matchToken(actual, "int") || matchToken(actual, "float")){
+        return declaraciones();
+    }
+
+    // TODO: Error
+}
+
+bool declaracion(){
+    sigToken(); // tipo de dato evaluado en i
+    if(!variables()){
+        //TODO: Error
+    }
+    if(matchToken(actual, ";")){
+        sigToken();
+        return true;
+    }
+    else{
+        //TODO: Error
+    }
+}
+
+bool variables(){
+    if(matchType(actual, "id")){
+        sigToken();
+        return true;
+    }
+    else{
+        //TODO: Error
+    }
+
+    if(matchToken(actual, '=')){    if(!tipodato())
+        //TODO: Error
+    if(!matchType(actual, "id"))
+        {
+            sigToken();
+            return true;
+        }
+    else
+        //TODO: error
+        sigToken();
+        if(!expresion()){
+            // TODO: Error
+        }
+    }
+    if(matchToken(actual, ',')){
+        sigToken();
+        return variables();
+    }
+    return true;
+}
+
+bool asignacion(){
+
+}
+
+orden de precedencia
+ ||
+ &&
+ != , ==
+ <,>,<=,>=
+ +,-
+ *,/
+ !
+
+ ejemplo
+ exp -> exp opsuma term | term
+ opsuma -> + | -
+ term -> term opmult factor | factor
+ opmult -> * | /
+ factor -> (exp) | n_int | n_float | id | lle (llamada a funcion exp)
+
+    exp -> term
+    term -> term opmult factor
+    term -> factor
+    factor -> id
+    opmult -> *
+    factor -> id
+
+ ejemplos:
+    a = b * c + f(5) * (3+2);
+
+         +
+       /   \
+      *     *
+     / \   / \
+     b c f() ()
+
+    a = b + c * 2
+
+    exp -> exp      opsuma term     exp -> exp || and   | and
+    exp -> exp      opsuma term     and -> and && ieq   | ieq
+    exp -> term     opsuma -> +     ieq -> ieq oeq rel  | rel
+    term -> factor  term -> factor
+    factor -> id    factor -> id
+    rOU -> ou rou | factor // opuni
+
+        *
+       / \
+      +   2
+     / \
+    b   c
+
+exp -> exp || operacionand || operacionand
+exp -> operacionand [||exp]
+
+    if(matchToken(actual, "||")){
+        sigToken();
+        return expresion();
+    }
+
+    if(matchToken(actual, "&&")){
+        sigToken();
+        return operacionand();
+    }
+    return true;
+
+30/may/2022
+
+    if (a && b || c) --->
+
+    bool expresion(){
+        if(!operacionand()){
+
+        }
+    }
+
+    exp ->operacionor [||]
+    operacionand -> operacioneq [&& operacionand]
+    operacioneq -> operacionrel [opeq operacioneq]
+    operadornot -> !operacionnot | operacionneg
+    operadornot -> [!] operacionneg
+    operacionneg -> [-] term
+
+bool operacionnot(){
+    if(matchToken(actual, '!')){
+        sigToken();
+    }
+    if(operacionneg()){
+
+    }
+    return true;
+}
+
+recuperación de errores por niveles
+ -> reconocedor -> solo reconoce un lenguaje y confirma si es valido o no
+ -> reconocer y ubicar errores y sus tipos ,/
+ -> corrector de errores
+
+ bool term(){
+    if (id)
+    if (n_int)
+    if (llamadaFuncion)
+    if ... float
+    else {
+        std::cout << "Número de linea" << actual.nl << "Token actual no válido " << actual.token
+        return false;
+    }
+ }
+
+ -> modo alarma:
+    if([exp]){
+        a && && b || || c // error en op&& y op||
+    }
+
+    // en modo alarma se evalúan los errores existentes hasta el final de la expresión o del conjunto ()
+    // por ejemplo en el if
+
+    if(a && && b || || c){ // existen errores en los operadores lógicos 
+        int a, b;
+        c = a + b;
+    }
+
+    // si no existe una llave de apertura
+    void modoAlarma(char *stop){
+        while(matchToken(actual, stop)){
+            sigToken();
+        }
+        valid = false;
+    }
+
+ -> modo pánico:
+    si algo falla en una expresión terminamos con el ; (punto y coma)
+
+    // se evalúa hasta el final del bloque con '}'
+    bool funcionMain(){
+
+    }
+    if(matchType(next, "eof")){
+        return true;
+    }
+    else{
+        std::cout << " hay tokens despúes del main"
+        return true;
+    }
+
+    void sigToken(){
+        // main:final
+        // actual == '}'
+        // next == "eof"
+        if(pos > size()){
+            actual.token = "";
+            actual.type = "eof";
+        }
+    }

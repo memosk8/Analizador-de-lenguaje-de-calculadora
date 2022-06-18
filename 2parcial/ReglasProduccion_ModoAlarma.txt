@@ -1,0 +1,33 @@
+Por cada regla de producción de la gramática utilizada, mencionar si esta usa el modo alarma y si lo hace, con que delimitador(es).
+
+   -Funcion main
+<int> <main>(P) {I}
+   -Funciones
+F -> F f | f   / no
+   -Función
+f -> T <id> (P) {I return} / no
+   -Llamada a función
+llf -> <id>(P);
+   -Parámetros
+P -> p,P | p  / no
+   -Parámetro
+p -> id | llf | val
+   -Bloque de instrucciones
+I -> i[I]
+   -Número o valor
+val -> n_int  | n_float 
+   -Instruccion
+i -> D | A | <if> | IE | W | <return> | llf 
+   -Declaracion
+D -> T <id> ;
+   -Tipo de dato
+T -> <int> | <float> | <void> 
+   -Asignación
+A -> T <id> = E | <id> | llf 
+   -Expresión 
+E -> operacionand [ || exp]
+   -If else
+IE -> <if> {I} <else> {I}
+   -While
+W -> <while> (EL) {I}
+
